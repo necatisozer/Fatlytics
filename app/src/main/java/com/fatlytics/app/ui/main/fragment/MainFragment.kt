@@ -5,17 +5,10 @@ import androidx.lifecycle.Observer
 import com.fatlytics.app.R
 import com.fatlytics.app.databinding.MainFragmentBinding
 import com.fatlytics.app.ui.base.BaseViewModelFragment
-import splitties.alertdialog.appcompat.alert
-import splitties.alertdialog.appcompat.cancelButton
-import splitties.alertdialog.appcompat.message
-import splitties.alertdialog.appcompat.okButton
-import splitties.alertdialog.appcompat.onDismiss
-import splitties.alertdialog.appcompat.onShow
-import splitties.alertdialog.appcompat.positiveButton
-import splitties.alertdialog.appcompat.title
-import splitties.toast.toast
-import splitties.views.textColorResource
-import splitties.views.textResource
+import com.fatlytics.app.ui.splash.SplashActivity
+import com.firebase.ui.auth.AuthUI
+import splitties.fragments.start
+import splitties.views.onClick
 
 class MainFragment : BaseViewModelFragment<MainFragmentViewModel, MainFragmentBinding>() {
     override val layoutRes = R.layout.main_fragment
@@ -28,28 +21,23 @@ class MainFragment : BaseViewModelFragment<MainFragmentViewModel, MainFragmentBi
     }
 
     private fun initView() {
-        with(binding) {
-            sampleTextView.textResource = R.string.app_name
-        }
+        binding.logoutButton.onClick { viewModel.onSignOut() }
     }
 
     private fun initViewModel() {
-        with(viewModel) {
-            liveData.observe(viewLifecycleOwner, Observer {
-                toast("ID: $it")
-            })
+        viewModel.userInfo.observe(viewLifecycleOwner, Observer {
+            binding.infoTextView.text = it
+        })
 
-            singleLiveEvent.observe(viewLifecycleOwner, Observer {
-                activity?.alert {
-                    title = "error title"
-                    message = "error message"
-                    okButton { }
-                    cancelButton()
-                    onDismiss { }
-                }?.onShow {
-                    positiveButton.textColorResource = R.color.red_500
-                }?.show()
-            })
-        }
+        viewModel.signOutEvent.observe(viewLifecycleOwner, Observer {
+            context?.let {
+                AuthUI.getInstance()
+                    .signOut(it)
+                    .addOnCompleteListener {
+                        start<SplashActivity>()
+                        activity?.finish()
+                    }
+            }
+        })
     }
 }
