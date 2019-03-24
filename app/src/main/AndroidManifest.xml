@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.necatisozer.fatlytics">
+    package="com.fatlytics.app">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -11,14 +11,14 @@
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name="com.necatisozer.fatlytics.app.App"
+        android:name="com.fatlytics.app.app.App"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name="com.necatisozer.fatlytics.ui.splash.SplashActivity"
+            android:name="com.fatlytics.app.ui.splash.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.necatisozer.fatlytics.ui.main.MainActivity" />
+        <activity android:name="com.fatlytics.app.ui.main.MainActivity" />
 
     </application>
 

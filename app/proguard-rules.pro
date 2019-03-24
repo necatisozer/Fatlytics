@@ -129,4 +129,4 @@
 #-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
 ### RxPaper ###
--keep class * implements com.necatisozer.movievault.domain.entity.Entity { *; }
+-keep class * implements com.fatlytics.app.domain.entity.Entity { *; }

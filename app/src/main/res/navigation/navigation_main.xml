@@ -7,6 +7,6 @@
     <fragment
         android:id="@+id/mainFragment"
         android:label="MainFragment"
-        android:name="com.necatisozer.fatlytics.ui.main.fragment.MainFragment"
+        android:name="com.fatlytics.app.ui.main.fragment.MainFragment"
         tools:layout="@layout/main_fragment" />
 </navigation>
