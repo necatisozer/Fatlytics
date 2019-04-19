@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseAdapter<D, H : BaseViewHolder<D, ViewDataBinding>> :
     ListAdapter<D, H>(DiffCallback<D>()) {
-    var clickListener: OnItemClickListener<D>? = null
+    var clickListener: (D) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = onCreateViewHolder(parent)
 
@@ -17,7 +17,7 @@ abstract class BaseAdapter<D, H : BaseViewHolder<D, ViewDataBinding>> :
         val data = currentList[position]
         holder.apply {
             bindData(data)
-            itemView.setOnClickListener { clickListener?.onItemClick(data) }
+            itemView.setOnClickListener { clickListener(data) }
         }
     }
 
@@ -33,9 +33,5 @@ abstract class BaseViewHolder<D, out B : ViewDataBinding>(protected val binding:
 class DiffCallback<D> : DiffUtil.ItemCallback<D>() {
     override fun areItemsTheSame(oldItem: D, newItem: D) = true
     override fun areContentsTheSame(oldItem: D, newItem: D) = oldItem == newItem
-}
-
-interface OnItemClickListener<D> {
-    fun onItemClick(data: D)
 }
 

@@ -9,7 +9,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import dagger.android.support.DaggerAppCompatDialogFragment
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 
 abstract class BaseFragment<B : ViewDataBinding> :
     DaggerAppCompatDialogFragment() {
@@ -18,7 +17,7 @@ abstract class BaseFragment<B : ViewDataBinding> :
     protected abstract val layoutRes: Int
     protected lateinit var binding: B
 
-    private val disposables = CompositeDisposable()
+    private val disposable = CompositeDisposable()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,12 +28,8 @@ abstract class BaseFragment<B : ViewDataBinding> :
         return binding.root
     }
 
-    protected fun addDisposable(vararg disposables: Disposable) {
-        disposables.forEach { this.disposables.add(it) }
-    }
-
     override fun onDestroy() {
-        disposables.dispose()
+        disposable.clear()
         super.onDestroy()
     }
 }
