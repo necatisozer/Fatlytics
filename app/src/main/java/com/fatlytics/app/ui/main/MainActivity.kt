@@ -15,9 +15,9 @@ class MainActivity : BaseFragmentActivity<MainViewModel, MainActivityBinding>() 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView()
-        initViewModel()
+        observeViewModel()
     }
 
     private fun initView() {}
-    private fun initViewModel() {}
+    private fun observeViewModel() {}
 }

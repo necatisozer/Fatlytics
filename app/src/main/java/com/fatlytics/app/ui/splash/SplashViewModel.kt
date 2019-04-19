@@ -7,22 +7,22 @@ import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
 
 class SplashViewModel @Inject constructor() : BaseViewModel() {
-    private val _signedInEvent = SingleLiveEvent<Void>()
+    private val mSignedInEvent = SingleLiveEvent<Void>()
     val signedInEvent: LiveData<Void>
-        get() = _signedInEvent
+        get() = mSignedInEvent
 
-    private val _signInEvent = SingleLiveEvent<Void>()
+    private val mSignInEvent = SingleLiveEvent<Void>()
     val signInEvent: LiveData<Void>
-        get() = _signInEvent
+        get() = mSignInEvent
 
     init {
         val auth = FirebaseAuth.getInstance()
         if (auth.currentUser != null) {
             // already signed in
-            _signedInEvent.call()
+            mSignedInEvent.call()
         } else {
             // not signed in
-            _signInEvent.call()
+            mSignInEvent.call()
         }
     }
 }

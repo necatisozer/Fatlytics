@@ -14,12 +14,12 @@
         android:name="com.fatlytics.app.app.App"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/Theme.Fatlytics.Light.DarkActionBar"
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
             android:name="com.fatlytics.app.ui.splash.SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/Theme.Fatlytics.Light.DarkActionBar.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

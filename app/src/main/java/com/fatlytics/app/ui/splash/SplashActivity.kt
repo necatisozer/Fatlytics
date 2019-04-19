@@ -22,10 +22,10 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initViewModel()
+        observeViewModel()
     }
 
-    private fun initViewModel() {
+    private fun observeViewModel() {
         viewModel.signedInEvent.observe(this, Observer {
             openApp()
         })
@@ -56,7 +56,7 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
                 // .setLogo(R.drawable.logo)
-                .setTheme(R.style.AppTheme)
+                .setTheme(R.style.Theme_Fatlytics_Light_DarkActionBar)
                 .build(),
             RC_SIGN_IN
         )

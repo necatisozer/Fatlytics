@@ -1,10 +1,11 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
-
+    <style name="Theme.Fatlytics.Light.DarkActionBar" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="colorPrimary">@color/orange_900</item>
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
     </style>
 
-    <style name="SplashTheme" parent="AppTheme">
+    <style name="Theme.Fatlytics.Light.DarkActionBar.Splash" parent="Theme.Fatlytics.Light.DarkActionBar">
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
