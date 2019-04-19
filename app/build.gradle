@@ -18,7 +18,7 @@ android {
         applicationId "com.fatlytics.app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode = versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100 + versionBuild
+        versionCode versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         if (!versionStage.isEmpty()) {
             versionName "${versionName}-${versionStage}"
@@ -33,7 +33,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
@@ -87,6 +87,10 @@ dependencies {
     implementation "com.louiscad.splitties:splitties-toast:3.0.0-alpha04"
     implementation "com.louiscad.splitties:splitties-views:3.0.0-alpha04"
     implementation "com.louiscad.splitties:splitties-views-appcompat:3.0.0-alpha04"
+
+    // Google Services
+    implementation 'com.google.firebase:firebase-core:16.0.8'
+    implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.5.0"
@@ -142,3 +146,5 @@ static def buildTime() {
     def df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
     return df.format(new Date())
 }
+
+apply plugin: 'com.google.gms.google-services'
