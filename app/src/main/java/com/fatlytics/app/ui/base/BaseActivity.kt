@@ -1,10 +1,13 @@
 package com.fatlytics.app.ui.base
 
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.fatlytics.app.R
 import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.disposables.CompositeDisposable
+import splitties.toast.toast
 import javax.inject.Inject
 
 abstract class BaseActivity<M : BaseViewModel> :
@@ -20,7 +23,11 @@ abstract class BaseActivity<M : BaseViewModel> :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(viewModelClass)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(viewModelClass).also {
+            it.unexpectedErrorEvent.observe(
+                this,
+                Observer { toast(R.string.unexpected_error_message) })
+        }
     }
 
     override fun onDestroy() {

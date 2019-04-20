@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Fatlytics</string>
     <string name="sign_out">Sign Out</string>
+
+    <!--Error Messages-->
+    <string name="unexpected_error_message">An unexpected error occurred!</string>
+    <string name="account_banned_error_message">Your account has been banned!</string>
 </resources>

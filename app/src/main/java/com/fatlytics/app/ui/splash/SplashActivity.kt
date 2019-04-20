@@ -9,8 +9,12 @@ import com.fatlytics.app.ui.base.BaseActivity
 import com.fatlytics.app.ui.main.MainActivity
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
-import com.google.firebase.auth.FirebaseAuth
 import splitties.activities.start
+import splitties.alertdialog.appcompat.alert
+import splitties.alertdialog.appcompat.message
+import splitties.alertdialog.appcompat.messageResource
+import splitties.alertdialog.appcompat.okButton
+import splitties.toast.toast
 
 class SplashActivity : BaseActivity<SplashViewModel>() {
 
@@ -27,17 +31,34 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
 
     private fun observeViewModel() {
         viewModel.signedInEvent.observe(this, Observer {
-            openApp()
+            start<MainActivity>()
+            finish()
         })
 
-        viewModel.signInEvent.observe(this, Observer {
+        viewModel.firebaseAuthEvent.observe(this, Observer {
             openAuthentication()
         })
-    }
 
-    private fun openApp() {
-        start<MainActivity>()
-        finish()
+        viewModel.registrationEvent.observe(this, Observer {
+            alert {
+                message = "Go to register"
+                okButton()
+            }.show()
+        })
+
+        viewModel.bannedEvent.observe(this, Observer {
+            alert {
+                messageResource = R.string.account_banned_error_message
+                okButton {
+                    AuthUI.getInstance()
+                        .signOut(this@SplashActivity)
+                        .addOnCompleteListener {
+                            start<SplashActivity>()
+                            finish()
+                        }
+                }
+            }.show()
+        })
     }
 
     private fun openAuthentication() {
@@ -70,13 +91,13 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
 
             if (resultCode == Activity.RESULT_OK) {
                 // Successfully signed in
-                val user = FirebaseAuth.getInstance().currentUser
-                openApp()
+                viewModel.onFirebaseAuthSuccess()
             } else {
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
                 // response.getError().getErrorCode() and handle the error.
-                // ...
+                response?.error?.localizedMessage?.let { toast(it) }
+                viewModel.onFirebaseAuthError()
             }
         }
     }
