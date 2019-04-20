@@ -27,6 +27,7 @@
         </activity>
 
         <activity android:name="com.fatlytics.app.ui.main.MainActivity" />
+        <activity android:name=".ui.registration.RegistrationActivity" />
 
     </application>
 

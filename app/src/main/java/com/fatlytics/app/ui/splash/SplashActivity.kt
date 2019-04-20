@@ -4,16 +4,15 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
 import com.fatlytics.app.R
 import com.fatlytics.app.ui.base.BaseActivity
 import com.fatlytics.app.ui.main.MainActivity
+import com.fatlytics.app.ui.registration.RegistrationActivity
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import splitties.activities.start
-import splitties.alertdialog.appcompat.alert
-import splitties.alertdialog.appcompat.message
-import splitties.alertdialog.appcompat.messageResource
-import splitties.alertdialog.appcompat.okButton
 import splitties.toast.toast
 
 class SplashActivity : BaseActivity<SplashViewModel>() {
@@ -40,24 +39,23 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
         })
 
         viewModel.registrationEvent.observe(this, Observer {
-            alert {
-                message = "Go to register"
-                okButton()
-            }.show()
+            start<RegistrationActivity>()
+            finish()
         })
 
         viewModel.bannedEvent.observe(this, Observer {
-            alert {
-                messageResource = R.string.account_banned_error_message
-                okButton {
+            MaterialDialog(this).show {
+                title(R.string.error)
+                message(R.string.account_banned_error_message)
+                positiveButton(android.R.string.ok) { dialog ->
                     AuthUI.getInstance()
                         .signOut(this@SplashActivity)
                         .addOnCompleteListener {
-                            start<SplashActivity>()
-                            finish()
+                            viewModel.checkUserAuth()
                         }
                 }
-            }.show()
+                lifecycleOwner(this@SplashActivity)
+            }
         })
     }
 
@@ -91,14 +89,14 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
 
             if (resultCode == Activity.RESULT_OK) {
                 // Successfully signed in
-                viewModel.onFirebaseAuthSuccess()
             } else {
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
                 // response.getError().getErrorCode() and handle the error.
                 response?.error?.localizedMessage?.let { toast(it) }
-                viewModel.onFirebaseAuthError()
             }
+
+            viewModel.checkUserAuth()
         }
     }
 }

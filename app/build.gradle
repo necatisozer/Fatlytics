@@ -74,7 +74,7 @@ dependencies {
 
     // Extensions
     implementation "com.louiscad.splitties:splitties-activities:3.0.0-alpha04"
-    implementation "com.louiscad.splitties:splitties-alertdialog-appcompat:3.0.0-alpha04"
+    //implementation "com.louiscad.splitties:splitties-alertdialog-appcompat:3.0.0-alpha04"
     implementation "com.louiscad.splitties:splitties-bundle:3.0.0-alpha04"
     implementation "com.louiscad.splitties:splitties-collections:3.0.0-alpha04"
     implementation "com.louiscad.splitties:splitties-fragments:3.0.0-alpha04"
@@ -124,9 +124,15 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation "com.jakewharton.threetenabp:threetenabp:1.2.0"
+    implementation "com.wajahatkarim3.easyvalidation:easyvalidation-core:1.0.1"
 
     // View
-    implementation 'com.yarolegovich:discrete-scrollview:1.4.9'
+    implementation 'com.afollestad.material-dialogs:core:2.8.1'
+    //implementation 'com.afollestad.material-dialogs:input:2.8.1'
+    //implementation 'com.afollestad.material-dialogs:files:2.8.1'
+    //implementation 'com.afollestad.material-dialogs:color:2.8.1'
+    implementation 'com.afollestad.material-dialogs:datetime:2.8.1'
+    implementation 'com.afollestad.material-dialogs:lifecycle:2.8.1'
 
     // Debug
     implementation 'com.jakewharton.timber:timber:4.7.1'

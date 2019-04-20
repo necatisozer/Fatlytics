@@ -3,6 +3,10 @@
     <style name="Theme.Fatlytics.Light.DarkActionBar" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="colorPrimary">@color/orange_900</item>
         <item name="android:statusBarColor">?attr/colorPrimary</item>
+
+        <!--Material Dialog Attributes-->
+        <item name="md_corner_radius">16dp</item>
+        <item name="colorAccent">?attr/colorPrimary</item>
     </style>
 
     <style name="Theme.Fatlytics.Light.DarkActionBar.Splash" parent="Theme.Fatlytics.Light.DarkActionBar">

@@ -28,3 +28,12 @@ fun View.onSingleClick(debounceTime: Long = 2000L, action: () -> Unit) {
         lastClickTime = SystemClock.elapsedRealtime()
     }
 }
+
+fun View.onSingleTouch(debounceTime: Long = 2000L, action: () -> Unit) {
+    var lastClickTime: Long = 0
+    setOnTouchListener { v, event ->
+        if (SystemClock.elapsedRealtime() - lastClickTime >= debounceTime) action()
+        lastClickTime = SystemClock.elapsedRealtime()
+        true
+    }
+}

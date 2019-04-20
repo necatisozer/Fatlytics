@@ -1,8 +1,21 @@
 <resources>
     <string name="app_name">Fatlytics</string>
     <string name="sign_out">Sign Out</string>
+    <string name="username">Username</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="birthday">Birthday</string>
+    <string name="gender">Gender</string>
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+    <string name="select">Select</string>
+    <string name="confirm">Confirm</string>
 
     <!--Error Messages-->
+    <string name="error">Hata!</string>
     <string name="unexpected_error_message">An unexpected error occurred!</string>
     <string name="account_banned_error_message">Your account has been banned!</string>
+    <string name="username_already_taken_error_message">Username was already taken!</string>
 </resources>

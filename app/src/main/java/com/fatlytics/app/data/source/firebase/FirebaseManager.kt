@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -30,9 +31,21 @@ class FirebaseManager @Inject constructor() {
                 }
             }.addOnFailureListener { emitter.onError(it) }
     }
+
+    fun checkUsername(username: String) = Completable.create { emitter ->
+        db.collection("user")
+            .whereEqualTo("username", username)
+            .get()
+            .addOnSuccessListener {
+                if (it.documents.isEmpty()) emitter.onComplete()
+                else emitter.onError(UsernameAlreadyTakenException())
+            }
+            .addOnFailureListener { emitter.onError(it) }
+    }
 }
 
 abstract class FirebaseException : RuntimeException()
 class UserNotSignedInException : FirebaseException()
 class UserNotFoundException : FirebaseException()
 class DeserializeException : FirebaseException()
+class UsernameAlreadyTakenException : FirebaseException()

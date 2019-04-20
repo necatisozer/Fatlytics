@@ -33,15 +33,7 @@ class SplashViewModel @Inject constructor(
         checkUserAuth()
     }
 
-    fun onFirebaseAuthSuccess() {
-        checkUserAuth()
-    }
-
-    fun onFirebaseAuthError() {
-        mFirebaseAuthEvent.call()
-    }
-
-    private fun checkUserAuth() {
+    fun checkUserAuth() {
         userRepository.checkUserAuth().doInBackground().subscribeBy(
             onComplete = { mSignedInEvent.call() },
             onError = {
