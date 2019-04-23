@@ -1,23 +1,32 @@
 package com.fatlytics.app.data.source.firebase.entity
 
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.ServerTimestamp
-import java.util.Date
+import com.google.firebase.database.IgnoreExtraProperties
 
+@IgnoreExtraProperties
 data class User(
     val banned: Boolean? = null,
-    val birthday: String? = null,
-    @ServerTimestamp val created_at: Date? = null,
-    val daily_activeness: DocumentReference? = null,
-    val diseases: List<DocumentReference>? = null,
+    val createdAt: Long? = null,
     val email: String? = null,
-    val first_name: String? = null,
-    val gender: DocumentReference? = null,
-    val height: String?,
-    val last_name: String? = null,
+    val healthInfo: HealthInfo? = null,
+    val personalInfo: PersonalInfo? = null,
     val token: String? = null,
     val uid: String? = null,
-    @ServerTimestamp val updated_at: Date? = null,
-    val username: String? = null,
-    val weight: String? = null
+    val updatedAt: Long? = null
+) : FirebaseEntity
+
+@IgnoreExtraProperties
+data class HealthInfo(
+    val dailyActiveness: String? = null,
+    val diseases: List<String>? = null,
+    val height: Long? = null,
+    val weight: Long? = null
+) : FirebaseEntity
+
+@IgnoreExtraProperties
+data class PersonalInfo(
+    val birthday: String? = null,
+    val firstName: String? = null,
+    val gender: String? = null,
+    val lastName: String? = null,
+    val username: String? = null
 ) : FirebaseEntity

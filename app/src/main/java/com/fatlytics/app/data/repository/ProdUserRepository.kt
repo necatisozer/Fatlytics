@@ -1,6 +1,6 @@
 package com.fatlytics.app.data.repository
 
-import com.fatlytics.app.data.repository.mapper.mapToUserEntity
+import com.fatlytics.app.data.repository.mapper.toUserEntity
 import com.fatlytics.app.data.source.firebase.FirebaseManager
 import com.fatlytics.app.domain.entity.PersonalInfo
 import com.fatlytics.app.domain.entity.User
@@ -24,11 +24,11 @@ class ProdUserRepository @Inject constructor(
 
     override fun getCurrentUser(): Observable<User> =
         firebaseManager.getFirebaseUser().flatMap {
-            firebaseManager.getDbUser(it.uid).map { it.mapToUserEntity() }
+            firebaseManager.getDbUser(it.uid).map { it.toUserEntity() }
         }.toObservable()
 
     override fun validatePersonalInfo(personalInfo: PersonalInfo) =
-        firebaseManager.checkUsername(personalInfo.username)
+        firebaseManager.checkUsername(personalInfo.username!!)
 }
 
 class UserBannedException : RuntimeException()

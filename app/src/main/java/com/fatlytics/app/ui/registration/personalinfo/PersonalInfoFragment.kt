@@ -72,8 +72,8 @@ class PersonalInfoFragment :
             title(R.string.gender)
             listItemsSingleChoice(R.array.gender) { dialog, index, text ->
                 selectedGender = when (index) {
-                    0 -> Gender.Male
-                    1 -> Gender.Female
+                    0 -> Gender.MALE
+                    1 -> Gender.FEMALE
                     else -> error("Invalid gender index")
                 }
                 binding.genderInputEditText.setText(text)

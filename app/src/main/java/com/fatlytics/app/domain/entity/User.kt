@@ -4,34 +4,28 @@ import org.threeten.bp.LocalDate
 
 data class User(
     val banned: Boolean?,
-    val birthday: LocalDate?,
-    val dailyActiveness: DailyActiveness?,
-    val diseases: List<Disease>?,
     val email: String?,
-    val firstName: String?,
-    val gender: Gender?,
-    val height: String?,
-    val lastName: String?,
+    val healthInfo: HealthInfo?,
+    val personalInfo: PersonalInfo?,
     val token: String?,
-    val uid: String?,
-    val username: String?,
-    val weight: String?
+    val uid: String?
 ) : Entity
 
-sealed class DailyActiveness {
-    object NotActive : DailyActiveness()
-    object Low : DailyActiveness()
-    object Medium : DailyActiveness()
-    object High : DailyActiveness()
-}
+data class HealthInfo(
+    val height: Int?,
+    val weight: Int?,
+    val dailyActiveness: DailyActiveness?,
+    val diseases: List<Disease>?
+) : Entity
 
-sealed class Disease {
-    object Diabetes : Disease()
-    object Obesity : Disease()
-    object Heart : Disease()
-}
+data class PersonalInfo(
+    val username: String?,
+    val firstName: String?,
+    val lastName: String?,
+    val birthday: LocalDate?,
+    val gender: Gender?
+) : Entity
 
-sealed class Gender {
-    object Female : Gender()
-    object Male : Gender()
-}
+enum class DailyActiveness { NOT_ACTIVE, LOW, MEDIUM, HIGH }
+enum class Disease { DIABETES, OBESITY, HEART }
+enum class Gender { MALE, FEMALE }

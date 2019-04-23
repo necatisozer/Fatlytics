@@ -90,8 +90,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.8'
     implementation 'com.google.firebase:firebase-common-ktx:16.1.0'
     implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
-    implementation 'com.google.firebase:firebase-firestore:18.2.0'
-    implementation 'com.google.firebase:firebase-firestore-ktx:18.2.0'
+    implementation 'com.google.firebase:firebase-database:16.1.0'
+    implementation 'com.github.rosariopfernandes.fireXtensions:database:0.3.4'
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.5.0"

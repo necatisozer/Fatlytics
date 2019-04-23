@@ -46,10 +46,10 @@ class HealthInfoFragment :
             title(R.string.daily_activeness)
             listItemsSingleChoice(R.array.daily_activeness) { dialog, index, text ->
                 selectedDailyActiveness = when (index) {
-                    0 -> DailyActiveness.High
-                    1 -> DailyActiveness.Medium
-                    2 -> DailyActiveness.Low
-                    3 -> DailyActiveness.NotActive
+                    0 -> DailyActiveness.HIGH
+                    1 -> DailyActiveness.MEDIUM
+                    2 -> DailyActiveness.LOW
+                    3 -> DailyActiveness.NOT_ACTIVE
                     else -> error("Invalid activeness")
                 }
                 binding.dailyActivenessInputEditText.setText(text)
@@ -64,9 +64,9 @@ class HealthInfoFragment :
             listItemsMultiChoice(R.array.diseases) { dialog, index, text ->
                 selectedDiseases = index.map {
                     when (it) {
-                        0 -> Disease.Diabetes
-                        1 -> Disease.Obesity
-                        2 -> Disease.Heart
+                        0 -> Disease.DIABETES
+                        1 -> Disease.OBESITY
+                        2 -> Disease.HEART
                         else -> error("Invalid disease")
                     }
                 }
