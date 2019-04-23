@@ -13,9 +13,11 @@ data class User(
     val email: String? = null,
     val first_name: String? = null,
     val gender: DocumentReference? = null,
+    val height: String?,
     val last_name: String? = null,
     val token: String? = null,
     val uid: String? = null,
     @ServerTimestamp val updated_at: Date? = null,
-    val username: String? = null
+    val username: String? = null,
+    val weight: String? = null
 ) : FirebaseEntity

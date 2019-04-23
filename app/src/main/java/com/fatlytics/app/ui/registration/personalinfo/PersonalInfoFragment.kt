@@ -3,6 +3,7 @@ package com.fatlytics.app.ui.registration.personalinfo
 import android.os.Bundle
 import android.text.format.DateFormat
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.datePicker
 import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
@@ -15,8 +16,8 @@ import com.fatlytics.app.extension.onSingleClick
 import com.fatlytics.app.extension.onSingleTouch
 import com.fatlytics.app.extension.toLocalDate
 import com.fatlytics.app.ui.base.BaseViewModelFragment
+import com.wajahatkarim3.easyvalidation.core.view_ktx.minLength
 import com.wajahatkarim3.easyvalidation.core.view_ktx.nonEmpty
-import com.wajahatkarim3.easyvalidation.core.view_ktx.validator
 import java.util.Calendar
 
 class PersonalInfoFragment :
@@ -46,6 +47,12 @@ class PersonalInfoFragment :
             binding.usernameInputEditText.error =
                 getString(R.string.username_already_taken_error_message)
         })
+
+        viewModel.navigateToHealtInfoEvent.observe(viewLifecycleOwner, Observer {
+            PersonalInfoFragmentDirections.actionPersonalInfoFragmentToHealthInfoFragment().also {
+                findNavController().navigate(it)
+            }
+        })
     }
 
     private fun showDatePicker() {
@@ -64,10 +71,10 @@ class PersonalInfoFragment :
         MaterialDialog(requireContext()).show {
             title(R.string.gender)
             listItemsSingleChoice(R.array.gender) { dialog, index, text ->
-                selectedGender = when (text) {
-                    "Male" -> Gender.Male
-                    "Female" -> Gender.Female
-                    else -> Gender.Unknown
+                selectedGender = when (index) {
+                    0 -> Gender.Male
+                    1 -> Gender.Female
+                    else -> error("Invalid gender index")
                 }
                 binding.genderInputEditText.setText(text)
             }
@@ -77,10 +84,7 @@ class PersonalInfoFragment :
 
     private fun validateFields() {
         with(binding) {
-            if (usernameInputEditText.validator()
-                    .minLength(3)
-                    .noSpecialCharacters()
-                    .addErrorCallback { usernameInputEditText.error = it }.check() &&
+            if (usernameInputEditText.minLength(3) { usernameInputEditText.error = it } &&
                 firstNameInputEditText.nonEmpty { firstNameInputEditText.error = it } &&
                 lastNameInputEditText.nonEmpty { lastNameInputEditText.error = it } &&
                 birthdayInputEditText.nonEmpty { birthdayInputEditText.error = it } &&

@@ -8,5 +8,14 @@
         android:id="@+id/personalInfoFragment"
         android:label="Personal Info"
         android:name="com.fatlytics.app.ui.registration.personalinfo.PersonalInfoFragment"
-        tools:layout="@layout/personal_info_fragment" />
+        tools:layout="@layout/personal_info_fragment">
+        <action
+            android:id="@+id/action_personalInfoFragment_to_healthInfoFragment"
+            app:destination="@id/healthInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/healthInfoFragment"
+        android:label="Health Info"
+        android:name="com.fatlytics.app.ui.registration.healthinfo.HealthInfoFragment"
+        tools:layout="@layout/health_info_fragment" />
 </navigation>

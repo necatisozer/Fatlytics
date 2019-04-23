@@ -29,13 +29,19 @@ private val genderMap = mapOf(
 fun User.mapToUserEntity() = UserEntity(
     banned = banned,
     birthday = LocalDate.parse(birthday, DateTimeFormatter.ISO_LOCAL_DATE),
-    dailyActiveness = dailyActivenessMap[daily_activeness?.path] ?: DailyActiveness.Unknown,
-    diseases = diseases?.map { diseaseMap[it.path] ?: Disease.Unknown },
+    dailyActiveness = dailyActivenessMap[daily_activeness?.path],
+    diseases = diseases?.flatMap {
+        mutableListOf<Disease>().apply {
+            diseases.forEach { diseaseMap[it.path]?.let { add(it) } }
+        }
+    },
     email = email,
     firstName = first_name,
-    gender = genderMap[gender?.path] ?: Gender.Unknown,
+    gender = genderMap[gender?.path],
+    height = height,
     lastName = last_name,
     token = token,
     uid = uid,
-    username = username
+    username = username,
+    weight = weight
 )

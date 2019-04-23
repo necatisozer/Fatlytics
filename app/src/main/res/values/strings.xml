@@ -12,6 +12,24 @@
     </string-array>
     <string name="select">Select</string>
     <string name="confirm">Confirm</string>
+    <string name="height">Height</string>
+    <string name="cm">cm</string>
+    <string name="weight">Weight</string>
+    <string name="kg">kg</string>
+    <string name="daily_activeness">Daily Activeness</string>
+    <string-array name="daily_activeness">
+        <item>High</item>
+        <item>Medium</item>
+        <item>Low</item>
+        <item>Not Active</item>
+    </string-array>
+    <string name="diseases">Diseases</string>
+    <string-array name="diseases">
+        <item>Diabetes</item>
+        <item>Obesity</item>
+        <item>Heart Disease</item>
+    </string-array>
+    <string name="complete_registration">Complete Registration</string>
 
     <!--Error Messages-->
     <string name="error">Hata!</string>
