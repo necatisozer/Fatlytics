@@ -3,6 +3,7 @@ package com.fatlytics.app.ui.main
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.fatlytics.app.R
 import com.fatlytics.app.databinding.MainActivityBinding
 import com.fatlytics.app.ui.base.BaseFragmentActivity
@@ -18,6 +19,8 @@ class MainActivity : BaseFragmentActivity<MainViewModel, MainActivityBinding>() 
         observeViewModel()
     }
 
-    private fun initView() {}
+    private fun initView() {
+        binding.bottomNavigation.setupWithNavController(navController)
+    }
     private fun observeViewModel() {}
 }

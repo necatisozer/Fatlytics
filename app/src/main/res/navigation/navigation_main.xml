@@ -2,11 +2,22 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/navigation_main"
-    app:startDestination="@id/mainFragment">
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/homeFragment">
+
     <fragment
-        android:id="@+id/mainFragment"
-        android:label="MainFragment"
-        android:name="com.fatlytics.app.ui.main.fragment.MainFragment"
-        tools:layout="@layout/main_fragment" />
+        android:id="@+id/homeFragment"
+        android:label="HomeFragment"
+        android:name="com.fatlytics.app.ui.main.home.HomeFragment"
+        tools:layout="@layout/home_fragment" />
+    <fragment
+        android:id="@+id/diaryFragment"
+        android:label="UniversityFragment"
+        android:name="com.fatlytics.app.ui.main.diary.DiaryFragment"
+        tools:layout="@layout/diary_fragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:label="FacultyFragment"
+        android:name="com.fatlytics.app.ui.main.profile.ProfileFragment"
+        tools:layout="@layout/profile_fragment" />
 </navigation>
