@@ -19,21 +19,21 @@ class PersonalInfoViewModel @Inject constructor(
     private val mUsernameAlreadyTakenEvent = SingleLiveEvent<Void>()
     val usernameAlreadyTakenEvent: LiveData<Void> get() = mUsernameAlreadyTakenEvent
 
-    private val mNavigateToHealtInfoEvent = SingleLiveEvent<Void>()
-    val navigateToHealtInfoEvent: LiveData<Void> get() = mNavigateToHealtInfoEvent
+    private val mNavigateToHealthInfoEvent = SingleLiveEvent<Void>()
+    val navigateToHealthInfoEvent: LiveData<Void> get() = mNavigateToHealthInfoEvent
 
     init {
     }
 
     fun onPersonalInfoInput(personalInfo: PersonalInfo) {
         userRepository.validatePersonalInfo(personalInfo).doInBackground().subscribeBy(
-            onComplete = { mNavigateToHealtInfoEvent.call() },
+            onComplete = { mNavigateToHealthInfoEvent.call() },
             onError = {
                 when (it) {
                     is UsernameAlreadyTakenException -> mUsernameAlreadyTakenEvent.call()
                     else -> mUnexpectedErrorEvent.call()
                 }
             }
-        ).also { disposable += it }
+        ).also { disposables += it }
     }
 }

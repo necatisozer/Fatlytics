@@ -20,5 +20,5 @@ abstract class AppInitializerModule {
 
     @Binds
     @IntoSet
-    abstract fun bindRxPaperInitializer(rxPaperInitializer: RxPaperInitializer): AppInitializer
+    abstract fun bindPaperInitializer(paperInitializer: PaperInitializer): AppInitializer
 }

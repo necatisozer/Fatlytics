@@ -6,6 +6,7 @@ import com.fatlytics.app.data.source.firebase.entity.User
 import com.fatlytics.app.domain.entity.DailyActiveness
 import com.fatlytics.app.domain.entity.Disease
 import com.fatlytics.app.domain.entity.Gender
+import com.fatlytics.app.extension.getKey
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import com.fatlytics.app.domain.entity.HealthInfo as HealthInfoEntity
@@ -16,9 +17,7 @@ fun User.toUserEntity() = UserEntity(
     banned = banned,
     email = email,
     healthInfo = healthInfo?.toHealthInfoEntity(),
-    personalInfo = personalInfo?.toPersonalInfoEntity(),
-    token = token,
-    uid = uid
+    personalInfo = personalInfo?.toPersonalInfoEntity()
 )
 
 fun HealthInfo.toHealthInfoEntity() = HealthInfoEntity(
@@ -28,12 +27,27 @@ fun HealthInfo.toHealthInfoEntity() = HealthInfoEntity(
     diseases = diseases?.mapNotNull { diseaseMap[it] }
 )
 
+fun HealthInfoEntity.toHealthInfoFirebaseEntity() = HealthInfo(
+    height = height?.toLong(),
+    weight = weight?.toLong(),
+    dailyActiveness = dailyActivenessMap.getKey(dailyActiveness),
+    diseases = diseases?.mapNotNull { diseaseMap.getKey(it) }
+)
+
 fun PersonalInfo.toPersonalInfoEntity() = PersonalInfoEntity(
     username = username,
     firstName = firstName,
     lastName = lastName,
     birthday = birthday?.let { LocalDate.parse(it, DateTimeFormatter.ISO_LOCAL_DATE) },
     gender = genderMap[gender]
+)
+
+fun PersonalInfoEntity.toPersonalInfoFirebaseEntity() = PersonalInfo(
+    username = username,
+    firstName = firstName,
+    lastName = lastName,
+    birthday = birthday?.let { DateTimeFormatter.ISO_LOCAL_DATE.format(it) },
+    gender = genderMap.getKey(gender)
 )
 
 private val dailyActivenessMap = mapOf(

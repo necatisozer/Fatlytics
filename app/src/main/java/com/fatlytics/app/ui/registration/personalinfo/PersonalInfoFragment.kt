@@ -48,7 +48,7 @@ class PersonalInfoFragment :
                 getString(R.string.username_already_taken_error_message)
         })
 
-        viewModel.navigateToHealtInfoEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToHealthInfoEvent.observe(viewLifecycleOwner, Observer {
             PersonalInfoFragmentDirections.actionPersonalInfoFragmentToHealthInfoFragment().also {
                 findNavController().navigate(it)
             }

@@ -3,10 +3,13 @@ package com.fatlytics.app.data.source.api
 import android.app.Application
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.fatlytics.app.BuildConfig
+import com.fatlytics.app.data.source.paper.AuthBook
+import com.fatlytics.app.data.source.paper.AuthBookKeys
 import com.serjltt.moshi.adapters.Wrapped
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
+import io.paperdb.Book
 import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -26,21 +29,29 @@ class ApiModule {
     fun provideCache(application: Application): Cache =
         Cache(File(application.cacheDir, "retrofit-cache"), CACHE_SIZE_IN_BYTES)
 
-    @Singleton
     @Provides
-    fun provideRequestInterceptor() = Interceptor { chain ->
-        val originalRequest = chain.request()
+    fun provideRequestInterceptor(@AuthBook authBook: Book) = Interceptor { chain ->
+        var request = chain.request()
 
-        val headers = originalRequest.headers().newBuilder()
-            .add("sample_header_name", "sample_header_value")
+        val url = request.url().newBuilder()
+            .addQueryParameter("format", "json")
             .build()
 
-        val url = originalRequest.url().newBuilder()
-            .addQueryParameter("sample_query_name", "sample_query_value")
+        request = request.newBuilder().url(url).build()
+
+        val accessToken = authBook.read<String?>(AuthBookKeys.AUTH_TOKEN)?.let { it }
+            ?: BuildConfig.FATSECRET_AUTH_TOKEN
+        val accessSecret = authBook.read<String?>(AuthBookKeys.AUTH_SECRET)?.let { it }
+            ?: BuildConfig.FATSECRET_AUTH_SECRET
+
+        val oauth1 = Oauth1SigningInterceptor.Builder()
+            .consumerKey(BuildConfig.FATSECRET_CONSUMER_KEY)
+            .consumerSecret(BuildConfig.FATSECRET_CONSUMER_SECRET)
+            .accessToken(accessToken)
+            .accessSecret(accessSecret)
             .build()
 
-        val request = originalRequest.newBuilder().headers(headers).url(url).build()
-        chain.proceed(request)
+        chain.proceed(oauth1.signRequest(request))
     }
 
     @Singleton
@@ -50,11 +61,9 @@ class ApiModule {
         else HttpLoggingInterceptor.Level.NONE
     }
 
-    @Singleton
     @Provides
     fun provideOkHttpClient(
-        cache: Cache,
-        requestInterceptor: Interceptor,
+        cache: Cache, requestInterceptor: Interceptor,
         httpLoggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient = OkHttpClient.Builder()
         .cache(cache)
@@ -73,28 +82,22 @@ class ApiModule {
         .add(DateAdapter())
         .build()
 
-    @Singleton
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit =
         Retrofit.Builder()
-            .baseUrl(API_BASE_URL)
+            .baseUrl(BuildConfig.FATSECRET_API_BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(okHttpClient)
             .build()
 
-    @Singleton
     @Provides
-    fun provideApi(retrofit: Retrofit): Api = retrofit.create(
-        Api::class.java
+    fun provideApi(retrofit: Retrofit): FatlyticsApi = retrofit.create(
+        FatlyticsApi::class.java
     )
 
     companion object ApiPaths {
         private const val TIMEOUT_IN_SECONDS: Long = 30
         private const val CACHE_SIZE_IN_BYTES: Long = 10 * 1024 * 1024
-
-        private const val API_HOST = "api.sample.com"
-        private const val API_VERSION = "v1"
-        private const val API_BASE_URL = "https://$API_HOST/$API_VERSION/"
     }
 }

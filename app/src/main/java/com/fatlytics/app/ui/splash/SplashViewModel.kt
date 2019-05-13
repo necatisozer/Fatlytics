@@ -44,6 +44,6 @@ class SplashViewModel @Inject constructor(
                     else -> mUnexpectedErrorEvent.call()
                 }
             }
-        ).also { disposable += it }
+        ).also { disposables += it }
     }
 }

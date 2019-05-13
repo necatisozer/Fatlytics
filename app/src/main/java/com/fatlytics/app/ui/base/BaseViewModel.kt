@@ -9,10 +9,10 @@ abstract class BaseViewModel : ViewModel() {
     protected val mUnexpectedErrorEvent = SingleLiveEvent<Void>()
     val unexpectedErrorEvent: LiveData<Void> get() = mUnexpectedErrorEvent
 
-    protected val disposable = CompositeDisposable()
+    protected val disposables = CompositeDisposable()
 
     override fun onCleared() {
-        disposable.clear()
+        disposables.clear()
         super.onCleared()
     }
 }

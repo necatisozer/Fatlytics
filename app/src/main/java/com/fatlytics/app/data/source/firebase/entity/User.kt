@@ -5,13 +5,19 @@ import com.google.firebase.database.IgnoreExtraProperties
 @IgnoreExtraProperties
 data class User(
     val banned: Boolean? = null,
-    val createdAt: Long? = null,
+    val createdAt: Any? = null,
     val email: String? = null,
+    val fatlyticsProfile: FatlyticsProfile? = null,
     val healthInfo: HealthInfo? = null,
     val personalInfo: PersonalInfo? = null,
-    val token: String? = null,
     val uid: String? = null,
-    val updatedAt: Long? = null
+    val updatedAt: Any? = null
+) : FirebaseEntity
+
+@IgnoreExtraProperties
+data class FatlyticsProfile(
+    val authSecret: String? = null,
+    val authToken: String? = null
 ) : FirebaseEntity
 
 @IgnoreExtraProperties

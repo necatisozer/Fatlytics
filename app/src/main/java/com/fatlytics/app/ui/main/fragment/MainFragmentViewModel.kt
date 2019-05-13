@@ -11,13 +11,11 @@ import javax.inject.Inject
 class MainFragmentViewModel @Inject constructor(
     private val logger: Logger
 ) : BaseViewModel() {
-    private val _userInfo = MutableLiveData<String>()
-    val userInfo: LiveData<String>
-        get() = _userInfo
+    private val mUserInfo = MutableLiveData<String>()
+    val userInfo: LiveData<String> get() = mUserInfo
 
-    private val _signOutEvent = SingleLiveEvent<Void>()
-    val signOutEvent: LiveData<Void>
-        get() = _signOutEvent
+    private val mSignOutEvent = SingleLiveEvent<Void>()
+    val signOutEvent: LiveData<Void> get() = mSignOutEvent
 
     init {
         val user = FirebaseAuth.getInstance().currentUser
@@ -29,10 +27,10 @@ class MainFragmentViewModel @Inject constructor(
             |UID: ${user?.uid}
             """.trimMargin()
 
-        _userInfo.value = info
+        mUserInfo.value = info
     }
 
     fun onSignOut() {
-        _signOutEvent.call()
+        mSignOutEvent.call()
     }
 }

@@ -1,11 +1,11 @@
 package com.fatlytics.app.app.initializer
 
 import android.app.Application
-import com.pacoworks.rxpaper2.RxPaperBook
+import io.paperdb.Paper
 import javax.inject.Inject
 
-class RxPaperInitializer @Inject constructor() : AppInitializer {
+class PaperInitializer @Inject constructor() : AppInitializer {
     override fun init(application: Application) {
-        RxPaperBook.init(application)
+        Paper.init(application)
     }
 }

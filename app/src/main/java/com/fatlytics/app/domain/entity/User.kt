@@ -6,9 +6,7 @@ data class User(
     val banned: Boolean?,
     val email: String?,
     val healthInfo: HealthInfo?,
-    val personalInfo: PersonalInfo?,
-    val token: String?,
-    val uid: String?
+    val personalInfo: PersonalInfo?
 ) : Entity
 
 data class HealthInfo(

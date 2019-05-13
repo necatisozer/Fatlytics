@@ -1,6 +1,7 @@
 package com.fatlytics.app.ui.registration.healthinfo
 
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
 import com.afollestad.materialdialogs.list.listItemsMultiChoice
@@ -13,8 +14,10 @@ import com.fatlytics.app.domain.entity.HealthInfo
 import com.fatlytics.app.extension.onSingleClick
 import com.fatlytics.app.extension.onSingleTouch
 import com.fatlytics.app.ui.base.BaseViewModelFragment
+import com.fatlytics.app.ui.main.MainActivity
 import com.wajahatkarim3.easyvalidation.core.view_ktx.nonEmpty
 import com.wajahatkarim3.easyvalidation.core.view_ktx.validator
+import splitties.fragments.start
 
 class HealthInfoFragment :
     BaseViewModelFragment<HealthInfoViewModel, HealthInfoFragmentBinding>() {
@@ -39,6 +42,10 @@ class HealthInfoFragment :
     }
 
     private fun observeViewModel() {
+        viewModel.signedInEvent.observe(viewLifecycleOwner, Observer {
+            start<MainActivity>()
+            activity?.finish()
+        })
     }
 
     private fun showDailyActivenessPicker() {
