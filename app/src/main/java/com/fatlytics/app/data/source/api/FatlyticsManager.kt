@@ -1,5 +1,6 @@
 package com.fatlytics.app.data.source.api
 
+import com.fatlytics.app.data.source.api.entity.FoodEntriesGet
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -110,6 +111,28 @@ class FatlyticsManager @Inject constructor(
             )
         }
     }
+
+    fun getFoodEntries(): Single<FoodEntriesModel> {
+        return fatlyticsApi.getFoodEntries().map {
+            it.food_entries?.food_entry?.let {
+                val foodEntries = it.groupBy { it.meal }
+                FoodEntriesModel(
+                    breakfast = foodEntries["Breakfast"].let { it } ?: listOf(),
+                    breakfastTotalCal = foodEntries["Breakfast"]?.let { it.sumBy { it.calories.toIntOrZero() } }
+                        ?: 0,
+                    lunch = foodEntries["Lunch"].let { it } ?: listOf(),
+                    lunchTotalCal = foodEntries["Lunch"]?.let { it.sumBy { it.calories.toIntOrZero() } }
+                        ?: 0,
+                    dinner = foodEntries["Dinner"].let { it } ?: listOf(),
+                    dinnerTotalCal = foodEntries["Dinner"]?.let { it.sumBy { it.calories.toIntOrZero() } }
+                        ?: 0,
+                    other = foodEntries["Other"].let { it } ?: listOf(),
+                    otherTotalCal = foodEntries["Other"]?.let { it.sumBy { it.calories.toIntOrZero() } }
+                        ?: 0
+                )
+            } ?: FoodEntriesModel()
+        }
+    }
 }
 
 data class Food(
@@ -133,3 +156,18 @@ data class ServingContent(
     val warning: Boolean = false,
     val warningReason: String? = null
 )
+
+data class FoodEntriesModel(
+    val breakfast: List<FoodEntriesGet.FoodEntries.FoodEntry> = listOf(),
+    val breakfastTotalCal: Int = 0,
+    val lunch: List<FoodEntriesGet.FoodEntries.FoodEntry> = listOf(),
+    val lunchTotalCal: Int = 0,
+    val dinner: List<FoodEntriesGet.FoodEntries.FoodEntry> = listOf(),
+    val dinnerTotalCal: Int = 0,
+    val other: List<FoodEntriesGet.FoodEntries.FoodEntry> = listOf(),
+    val otherTotalCal: Int = 0
+) {
+    fun getTotalCal() = breakfastTotalCal + lunchTotalCal + dinnerTotalCal + otherTotalCal
+}
+
+private fun String?.toIntOrZero() = this?.toIntOrNull()?.let { it } ?: 0

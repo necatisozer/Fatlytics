@@ -142,6 +142,7 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:datetime:3.0.0-alpha1'
     implementation 'com.afollestad.material-dialogs:lifecycle:3.0.0-alpha1'
     implementation 'com.afollestad.material-dialogs:bottomsheets:3.0.0-alpha1'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     // Debug
     implementation 'com.jakewharton.timber:timber:4.7.1'
