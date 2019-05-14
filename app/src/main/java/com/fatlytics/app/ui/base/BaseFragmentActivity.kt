@@ -3,6 +3,7 @@ package com.fatlytics.app.ui.base
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 
 abstract class BaseFragmentActivity<M : BaseViewModel, B : ViewDataBinding> :
@@ -14,5 +15,9 @@ abstract class BaseFragmentActivity<M : BaseViewModel, B : ViewDataBinding> :
         super.onStart()
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 }
