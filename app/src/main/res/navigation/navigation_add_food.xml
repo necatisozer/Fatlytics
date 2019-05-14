@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_add_food"
+    app:startDestination="@id/searchFragment">
+    <fragment
+        android:id="@+id/searchFragment"
+        android:label="Search Food"
+        android:name="com.fatlytics.app.ui.addfood.search.SearchFragment"
+        tools:layout="@layout/search_fragment">
+        <action
+            android:id="@+id/action_searchFragment_to_foodDetailFragment"
+            app:destination="@id/foodDetailFragment" />
+        <argument
+            android:name="meal"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/foodDetailFragment"
+        android:label="Food Details"
+        android:name="com.fatlytics.app.ui.addfood.fooddetail.FoodDetailFragment"
+        tools:layout="@layout/food_detail_fragment">
+        <argument
+            android:name="meal"
+            app:argType="string" />
+        <argument
+            android:name="food_id"
+            app:argType="long" />
+    </fragment>
+</navigation>

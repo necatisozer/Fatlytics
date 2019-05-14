@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.main.MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="8dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/description"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_width="0dp"
+            android:textAlignment="textStart"
+            app:layout_constraintEnd_toStartOf="@+id/calories"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2 small apples" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/calories"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/cal" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

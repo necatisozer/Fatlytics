@@ -105,7 +105,7 @@
                     android:layout_width="match_parent" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                 style="@style/Widget.MaterialComponents.Button"
                 android:id="@+id/complete_registration_button"
                 android:layout_height="wrap_content"

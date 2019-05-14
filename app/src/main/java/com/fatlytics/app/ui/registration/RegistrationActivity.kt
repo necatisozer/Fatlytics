@@ -16,8 +16,6 @@ class RegistrationActivity :
     override val viewModelClass = RegistrationViewModel::class.java
     override val navController: NavController by lazy { findNavController(R.id.container) }
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView()

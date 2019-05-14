@@ -4,18 +4,326 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.main.MainActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_height="match_parent"
         android:layout_width="match_parent">
 
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/diary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/breakfast_card"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_width="match_parent"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="7dp"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:background="?attr/colorPrimary"
+                        android:id="@+id/breakfast_title"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:padding="8dp"
+                        android:text="@string/breakfast"
+                        android:textAlignment="center"
+                        android:textColor="?attr/colorOnPrimary"
+                        android:textSize="18sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/breakfast_recycler"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_food_entry" />
+
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:id="@+id/breakfast_add_food"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:text="@string/add_food" />
+
+                    <View
+                        android:background="?android:attr/listDivider"
+                        android:layout_height="1dp"
+                        android:layout_width="match_parent" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:padding="8dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:text="@string/total"
+                            android:textAlignment="textStart"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toStartOf="@+id/breakfast_total_calories"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/breakfast_total_calories"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="@string/cal" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/lunch_card"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_width="match_parent"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="7dp"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:background="?attr/colorPrimary"
+                        android:id="@+id/lunch_title"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:padding="8dp"
+                        android:text="@string/lunch"
+                        android:textAlignment="center"
+                        android:textColor="?attr/colorOnPrimary"
+                        android:textSize="18sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/lunch_recycler"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_food_entry" />
+
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:id="@+id/lunch_add_food"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:text="@string/add_food" />
+
+                    <View
+                        android:background="?android:attr/listDivider"
+                        android:layout_height="1dp"
+                        android:layout_width="match_parent" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:padding="8dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:text="@string/total"
+                            android:textAlignment="textStart"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toStartOf="@+id/lunch_total_calories"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/lunch_total_calories"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="@string/cal" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/dinner_card"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_width="match_parent"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="7dp"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:background="?attr/colorPrimary"
+                        android:id="@+id/dinner_title"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:padding="8dp"
+                        android:text="@string/dinner"
+                        android:textAlignment="center"
+                        android:textColor="?attr/colorOnPrimary"
+                        android:textSize="18sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/dinner_recycler"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_food_entry" />
+
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:id="@+id/dinner_add_food"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:text="@string/add_food" />
+
+                    <View
+                        android:background="?android:attr/listDivider"
+                        android:layout_height="1dp"
+                        android:layout_width="match_parent" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:padding="8dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:text="@string/total"
+                            android:textAlignment="textStart"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toStartOf="@+id/dinner_total_calories"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/dinner_total_calories"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="@string/cal" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/other_card"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_width="match_parent"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="7dp"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:background="?attr/colorPrimary"
+                        android:id="@+id/other_title"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:padding="8dp"
+                        android:text="@string/other"
+                        android:textAlignment="center"
+                        android:textColor="?attr/colorOnPrimary"
+                        android:textSize="18sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/other_recycler"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_food_entry" />
+
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:id="@+id/other_add_food"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:text="@string/add_food" />
+
+                    <View
+                        android:background="?android:attr/listDivider"
+                        android:layout_height="1dp"
+                        android:layout_width="match_parent" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:padding="8dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:text="@string/total"
+                            android:textAlignment="textStart"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toStartOf="@+id/other_total_calories"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/other_total_calories"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="@string/cal" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
 
 </layout>

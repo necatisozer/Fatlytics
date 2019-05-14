@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.addfood.AddFoodActivity">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/food_name"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="2 small apples" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/food_description"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            tools:text="@string/cal" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>
