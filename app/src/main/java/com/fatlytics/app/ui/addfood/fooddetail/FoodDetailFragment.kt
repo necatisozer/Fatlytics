@@ -29,6 +29,7 @@ class FoodDetailFragment : BaseViewModelFragment<FoodDetailViewModel, FoodDetail
                 if (it.warning)
                     MaterialDialog(requireContext()).show {
                         title(text = "Warning")
+                        icon(R.drawable.ic_warning_24dp)
                         message(text = it.warningReason)
                         positiveButton(android.R.string.ok)
                     }.lifecycleOwner(viewLifecycleOwner)
