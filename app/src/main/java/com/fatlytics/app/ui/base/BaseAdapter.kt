@@ -6,10 +6,13 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import splitties.views.onClick
+import splitties.views.onLongClick
 
 abstract class BaseAdapter<D, H : BaseViewHolder<D, ViewDataBinding>> :
     ListAdapter<D, H>(DiffCallback<D>()) {
     var clickListener: (D) -> Unit = {}
+    var longClickListener: (D) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = onCreateViewHolder(parent)
 
@@ -17,7 +20,8 @@ abstract class BaseAdapter<D, H : BaseViewHolder<D, ViewDataBinding>> :
         val data = currentList[position]
         holder.apply {
             bindData(data)
-            itemView.setOnClickListener { clickListener(data) }
+            itemView.onClick { clickListener(data) }
+            itemView.onLongClick { longClickListener(data) }
         }
     }
 

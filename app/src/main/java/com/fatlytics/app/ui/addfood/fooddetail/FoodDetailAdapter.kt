@@ -1,16 +1,13 @@
 package com.fatlytics.app.ui.addfood.fooddetail
 
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import com.afollestad.materialdialogs.MaterialDialog
 import com.fatlytics.app.R
 import com.fatlytics.app.data.source.api.ServingContent
 import com.fatlytics.app.databinding.ItemFoodDetailBinding
 import com.fatlytics.app.extension.getInflater
+import com.fatlytics.app.extension.visible
 import com.fatlytics.app.ui.base.BaseAdapter
 import com.fatlytics.app.ui.base.BaseViewHolder
-import splitties.views.backgroundColor
-import splitties.views.onClick
 import splitties.views.textColorResource
 import java.math.RoundingMode
 
@@ -31,18 +28,10 @@ class FoodDetailViewHolder(binding: ItemFoodDetailBinding) :
         binding.foodContentAmount.text = "${data.amount.toIntString()} ${data.measure}"
 
         if (data.warning) {
-            itemView.backgroundColor = ContextCompat.getColor(context, R.color.colorError)
-            binding.foodContent.textColorResource = R.color.colorOnError
-            binding.foodContentAmount.textColorResource = R.color.colorOnError
-            itemView.onClick { showWarningDialog(data.warningReason) }
-        }
-    }
-
-    private fun showWarningDialog(message: String?) {
-        MaterialDialog(context).show {
-            title(text = "Warning")
-            message(text = message)
-            positiveButton(android.R.string.ok)
+            itemView.setBackgroundResource(R.drawable.error_border)
+            binding.foodContent.textColorResource = R.color.colorError
+            binding.foodContentAmount.textColorResource = R.color.colorError
+            binding.warningIcon.visible()
         }
     }
 }

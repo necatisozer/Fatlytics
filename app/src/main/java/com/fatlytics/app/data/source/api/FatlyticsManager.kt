@@ -2,6 +2,7 @@ package com.fatlytics.app.data.source.api
 
 import com.fatlytics.app.data.source.api.entity.FoodEntriesGet
 import com.fatlytics.app.domain.entity.DailyActiveness
+import com.fatlytics.app.domain.entity.Disease
 import com.fatlytics.app.domain.entity.Gender
 import com.fatlytics.app.domain.entity.User
 import com.fatlytics.app.domain.repository.UserRepository
@@ -16,7 +17,6 @@ class FatlyticsManager @Inject constructor(
     private val userRepository: UserRepository
 ) {
     fun getFood(id: Long, amount: Double): Single<Food> {
-
         return getFoodEntries().flatMap { foodEntries ->
             fatlyticsApi.getFood(id).map {
                 Food(
@@ -86,7 +86,12 @@ class FatlyticsManager @Inject constructor(
                                     name = "Sugars",
                                     amount = it.sugar?.toDoubleOrNull()?.times(amount),
                                     measure = "g",
-                                    subContent = true
+                                    subContent = true,
+                                    warning = (it.sugar?.toDoubleOrNull()?.times(amount)?.let { it }
+                                        ?: 0.0).let {
+                                        it != 0.0 && it > foodEntries.sugarLimitLeft
+                                    },
+                                    warningReason = "You have diabetes disease. If you add that food, you will exceed your daily sugar limit."
                                 ),
                                 ServingContent(
                                     name = "Protein",
@@ -139,7 +144,8 @@ class FatlyticsManager @Inject constructor(
                         other = foodEntries["Other"].let { it } ?: listOf(),
                         otherTotalCal = foodEntries["Other"]?.let { it.sumBy { it.calories.toIntOrZero() } }
                             ?: 0,
-                        dailyGoal = dailyGoal(user)
+                        dailyGoal = dailyGoal(user),
+                        sugarLimitLeft = sugarLimitLeft(user, it)
                     )
                 } ?: FoodEntriesModel()
             }.subscribeOn(Schedulers.io())
@@ -164,6 +170,13 @@ class FatlyticsManager @Inject constructor(
 
         return calorie.toInt()
     }
+
+    private fun sugarLimitLeft(user: User, entries: List<FoodEntriesGet.FoodEntries.FoodEntry>) =
+        if (user.healthInfo?.diseases?.contains(Disease.DIABETES) == true)
+            dailyGoal(user) * 0.05 / 4 - entries.sumByDouble {
+                it.sugar?.toDoubleOrNull().let { it } ?: 0.0
+            }
+        else Double.MAX_VALUE
 }
 
 data class Food(
@@ -197,7 +210,8 @@ data class FoodEntriesModel(
     val dinnerTotalCal: Int = 0,
     val other: List<FoodEntriesGet.FoodEntries.FoodEntry> = listOf(),
     val otherTotalCal: Int = 0,
-    val dailyGoal: Int = 0
+    val dailyGoal: Int = 0,
+    val sugarLimitLeft: Double = Double.MAX_VALUE
 ) {
     fun totalCal() = breakfastTotalCal + lunchTotalCal + dinnerTotalCal + otherTotalCal
 }

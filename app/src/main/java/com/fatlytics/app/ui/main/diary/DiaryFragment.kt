@@ -1,13 +1,18 @@
 package com.fatlytics.app.ui.main.diary
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.RelativeSizeSpan
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
 import com.fatlytics.app.R
 import com.fatlytics.app.data.source.api.FoodEntriesModel
 import com.fatlytics.app.databinding.DiaryFragmentBinding
@@ -21,17 +26,32 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
-import splitties.fragments.start
 import java.util.ArrayList
 
 class DiaryFragment : BaseViewModelFragment<DiaryViewModel, DiaryFragmentBinding>() {
     override val layoutRes = R.layout.diary_fragment
     override val viewModelClass = DiaryViewModel::class.java
 
-    private val breakfastFoodEntryAdapter: FoodEntryAdapter by lazy { FoodEntryAdapter() }
-    private val lunchFoodEntryAdapter: FoodEntryAdapter by lazy { FoodEntryAdapter() }
-    private val dinnerFoodEntryAdapter: FoodEntryAdapter by lazy { FoodEntryAdapter() }
-    private val otherFoodEntryAdapter: FoodEntryAdapter by lazy { FoodEntryAdapter() }
+    private val breakfastFoodEntryAdapter: FoodEntryAdapter by lazy {
+        FoodEntryAdapter().apply {
+            longClickListener = { deleteFoodEntry(it.food_entry_id?.toLongOrNull()) }
+        }
+    }
+    private val lunchFoodEntryAdapter: FoodEntryAdapter by lazy {
+        FoodEntryAdapter().apply {
+            longClickListener = { deleteFoodEntry(it.food_entry_id?.toLongOrNull()) }
+        }
+    }
+    private val dinnerFoodEntryAdapter: FoodEntryAdapter by lazy {
+        FoodEntryAdapter().apply {
+            longClickListener = { deleteFoodEntry(it.food_entry_id?.toLongOrNull()) }
+        }
+    }
+    private val otherFoodEntryAdapter: FoodEntryAdapter by lazy {
+        FoodEntryAdapter().apply {
+            longClickListener = { deleteFoodEntry(it.food_entry_id?.toLongOrNull()) }
+        }
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -63,25 +83,25 @@ class DiaryFragment : BaseViewModelFragment<DiaryViewModel, DiaryFragmentBinding
         }
 
         binding.breakfastAddFood.onSingleClick {
-            start<AddFoodActivity> {
+            startForResult<AddFoodActivity>(REQUEST_CODE) {
                 putExtra("meal", "breakfast")
             }
         }
 
         binding.lunchAddFood.onSingleClick {
-            start<AddFoodActivity> {
+            startForResult<AddFoodActivity>(REQUEST_CODE) {
                 putExtra("meal", "lunch")
             }
         }
 
         binding.dinnerAddFood.onSingleClick {
-            start<AddFoodActivity> {
+            startForResult<AddFoodActivity>(REQUEST_CODE) {
                 putExtra("meal", "dinner")
             }
         }
 
         binding.otherAddFood.onSingleClick {
-            start<AddFoodActivity> {
+            startForResult<AddFoodActivity>(REQUEST_CODE) {
                 putExtra("meal", "other")
             }
         }
@@ -203,4 +223,32 @@ class DiaryFragment : BaseViewModelFragment<DiaryViewModel, DiaryFragmentBinding
                 getString(R.string.cal, it.otherTotalCal.toString())
         })
     }
+
+    private fun deleteFoodEntry(foodEntryId: Long?) {
+        MaterialDialog(requireContext()).show {
+            title(text = "Delete Confirmation")
+            message(text = "Are you sure you want to delete this food entry?")
+            positiveButton { foodEntryId?.let { viewModel.deleteFoodEntry(it) } }
+            negativeButton()
+            lifecycleOwner(viewLifecycleOwner)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_CODE)
+            viewModel.init()
+        else
+            super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    companion object {
+        private const val REQUEST_CODE = 9000
+    }
+}
+
+inline fun <reified A : Activity> Fragment.startForResult(
+    requestCode: Int,
+    configIntent: Intent.() -> Unit = {}
+) {
+    startActivityForResult(Intent(activity, A::class.java).apply(configIntent), requestCode)
 }

@@ -2,9 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.main.MainActivity">
+    tools:context=".ui.addfood.AddFoodActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="?android:attr/selectableItemBackground"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:padding="8dp">
@@ -15,6 +16,7 @@
             android:layout_marginEnd="16dp"
             android:layout_width="0dp"
             android:textAlignment="textStart"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/food_content_amount"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -25,9 +27,21 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/warning_icon"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="0.36 g" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/warning_icon"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:paddingStart="8dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_warning_24dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,5 +1,7 @@
 package com.fatlytics.app.ui.addfood.fooddetail
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import androidx.lifecycle.Observer
@@ -21,9 +23,21 @@ class FoodDetailFragment : BaseViewModelFragment<FoodDetailViewModel, FoodDetail
     override val viewModelClass = FoodDetailViewModel::class.java
 
     private val args by navArgs<FoodDetailFragmentArgs>()
-    private val foodDetailAdapter: FoodDetailAdapter by lazy { FoodDetailAdapter() }
+    private val foodDetailAdapter: FoodDetailAdapter by lazy {
+        FoodDetailAdapter().apply {
+            clickListener = {
+                if (it.warning)
+                    MaterialDialog(requireContext()).show {
+                        title(text = "Warning")
+                        message(text = it.warningReason)
+                        positiveButton(android.R.string.ok)
+                    }.lifecycleOwner(viewLifecycleOwner)
+            }
+        }
+    }
 
     private var servingDialog: MaterialDialog? = null
+    private var warningDialog: MaterialDialog? = null
     private var food: Food? = null
     private var servingId: Long? = null
     private var servingAmount: Double = 1.0
@@ -42,19 +56,7 @@ class FoodDetailFragment : BaseViewModelFragment<FoodDetailViewModel, FoodDetail
 
         binding.servingChangeButton.onSingleClick { servingDialog?.show() }
         binding.addFoodButton.onSingleClick {
-            food?.name?.let { foodName ->
-                servingId?.let { servingId ->
-                    viewModel.addFood(
-                        foodId = args.foodId,
-                        entryName = foodName,
-                        servingId = servingId,
-                        numberOfUnits = servingAmount,
-                        meal = args.meal
-                    )
-                }
-
-            }
-
+            warningDialog?.show() ?: addFood()
         }
     }
 
@@ -91,13 +93,44 @@ class FoodDetailFragment : BaseViewModelFragment<FoodDetailViewModel, FoodDetail
                         servingId = it.servings?.get(index)?.id
                         getFood()
                     }.lifecycleOwner(viewLifecycleOwner)
+
+            val warningList =
+                serving?.contents?.filter { it?.warning == true }?.map { it?.warningReason ?: "" }
+
+            warningDialog = if (warningList.isNullOrEmpty()) null else
+                MaterialDialog(requireContext())
+                    .title(text = "Warning!")
+                    .icon(R.drawable.ic_warning_24dp)
+                    .listItems(items = warningList, waitForPositiveButton = true)
+                    .message(text = "Are you sure you want to continue?")
+                    .positiveButton { addFood() }
+                    .negativeButton()
+                    .lifecycleOwner(viewLifecycleOwner)
         })
 
         viewModel.foodAddCompleteEvent.observe(viewLifecycleOwner, Observer {
-            activity?.finish()
+            activity?.let {
+                it.setResult(Activity.RESULT_OK, Intent())
+                it.finish()
+            }
         })
 
         getFood()
+    }
+
+    private fun addFood() {
+        food?.name?.let { foodName ->
+            servingId?.let { servingId ->
+                viewModel.addFood(
+                    foodId = args.foodId,
+                    entryName = foodName,
+                    servingId = servingId,
+                    numberOfUnits = servingAmount,
+                    meal = args.meal
+                )
+            }
+
+        }
     }
 
     private fun getFood() {
