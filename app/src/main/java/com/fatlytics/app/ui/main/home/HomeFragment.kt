@@ -124,6 +124,14 @@ class HomeFragment : BaseViewModelFragment<HomeViewModel, HomeFragmentBinding>()
                     "Snacks"
                 )
             )
+            if (isEmpty()) {
+                add(
+                    PieEntry(
+                        1f,
+                        "No Meals"
+                    )
+                )
+            }
         }
 
         val dataSet = PieDataSet(entries, "")

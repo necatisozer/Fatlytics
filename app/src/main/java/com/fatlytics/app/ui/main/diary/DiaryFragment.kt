@@ -173,15 +173,20 @@ class DiaryFragment : BaseViewModelFragment<DiaryViewModel, DiaryFragmentBinding
         chart!!.centerText =
             generateCenterSpannableText("Daily Goal:\n${foodEntriesModel.dailyGoal} cal")
 
-        val values = ArrayList<PieEntry>()
+        val values = ArrayList<PieEntry>().apply {
+            if (foodEntriesModel.totalCal() > 0) {
+                add(PieEntry(foodEntriesModel.totalCal().toFloat(), "Food"))
+            }
 
-        values.add(PieEntry(foodEntriesModel.totalCal().toFloat(), "Food"))
-        values.add(
-            PieEntry(
-                (foodEntriesModel.dailyGoal - foodEntriesModel.totalCal()).toFloat(),
-                "Remaining"
-            )
-        )
+            val remaining = (foodEntriesModel.dailyGoal - foodEntriesModel.totalCal()).toFloat()
+            if (remaining > 0)
+                add(
+                    PieEntry(
+                        (foodEntriesModel.dailyGoal - foodEntriesModel.totalCal()).toFloat(),
+                        "Remaining"
+                    )
+                )
+        }
 
         val dataSet = PieDataSet(values, "")
         dataSet.sliceSpace = 3f

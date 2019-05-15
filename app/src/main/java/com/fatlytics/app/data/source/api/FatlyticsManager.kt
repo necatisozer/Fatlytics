@@ -153,7 +153,10 @@ class FatlyticsManager @Inject constructor(
                         dailyGoal = dailyGoal(user),
                         sugarLimitLeft = sugarLimitLeft(user, it)
                     )
-                } ?: error(it.error?.message ?: "")
+                } ?: FoodEntriesModel(
+                    dailyGoal = dailyGoal(user),
+                    sugarLimitLeft = sugarLimitLeft(user)
+                )
             }.subscribeOn(Schedulers.io())
         }
     }
@@ -177,7 +180,10 @@ class FatlyticsManager @Inject constructor(
         return calorie.toInt()
     }
 
-    private fun sugarLimitLeft(user: User, entries: List<FoodEntriesGet.FoodEntries.FoodEntry>) =
+    private fun sugarLimitLeft(
+        user: User,
+        entries: List<FoodEntriesGet.FoodEntries.FoodEntry> = listOf()
+    ) =
         if (user.healthInfo?.diseases?.contains(Disease.DIABETES) == true)
             dailyGoal(user) * 0.05 / 4 - entries.sumByDouble {
                 it.sugar?.toDoubleOrNull().let { it } ?: 0.0

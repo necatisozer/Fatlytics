@@ -74,7 +74,7 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
             AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
-                // .setLogo(R.drawable.logo)
+                .setLogo(R.drawable.splash_logo)
                 .setTheme(R.style.Theme_Fatlytics_Light_DarkActionBar)
                 .build(),
             RC_SIGN_IN

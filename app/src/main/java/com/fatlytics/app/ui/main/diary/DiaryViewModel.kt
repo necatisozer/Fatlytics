@@ -21,7 +21,10 @@ class DiaryViewModel @Inject constructor(
     fun init() {
         fatlyticsManager.getFoodEntries()
             .doInBackground()
-            .subscribeBy { mBreakfastFoodEntries.value = it }
+            .subscribeBy(
+                onSuccess = { mBreakfastFoodEntries.value = it },
+                onError = { mUnexpectedErrorEvent.call() }
+            )
             .also { disposables += it }
     }
 
