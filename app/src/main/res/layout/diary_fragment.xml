@@ -9,14 +9,23 @@
         android:layout_width="match_parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:orientation="vertical">
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/half_pie_chart"
+                android:layout_height="300dp"
+                android:layout_margin="16dp"
+                android:layout_width="match_parent" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/breakfast_card"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="-125dp"
                 android:layout_width="match_parent"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="7dp"
