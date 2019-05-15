@@ -19,7 +19,9 @@ class HomeViewModel @Inject constructor(
     init {
         fatlyticsManager.getFoodEntries()
             .doInBackground()
-            .subscribeBy { mFoodEntries.value = it }
+            .subscribeBy(
+                onSuccess = { mFoodEntries.value = it },
+                onError = { mUnexpectedErrorEvent.call() })
             .also { disposables += it }
     }
 }

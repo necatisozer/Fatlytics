@@ -18,111 +18,117 @@ class FatlyticsManager @Inject constructor(
 ) {
     fun getFood(id: Long, amount: Double): Single<Food> {
         return getFoodEntries().flatMap { foodEntries ->
-            fatlyticsApi.getFood(id).map {
-                Food(
-                    id = it.food?.food_id?.toLongOrNull(),
-                    name = it.food?.food_name,
-                    servings = it.food?.servings?.serving?.map {
-                        Serving(
-                            id = it.serving_id?.toLongOrNull(),
-                            numberOfUnits = it.number_of_units?.toDoubleOrNull()?.times(amount),
-                            measurementDescription = it.measurement_description,
-                            contents = listOf(
-                                ServingContent(
-                                    name = "Calories",
-                                    amount = it.calories?.toDoubleOrNull()?.times(amount),
-                                    measure = "cal"
-                                ),
-                                ServingContent(
-                                    name = "Total Fat",
-                                    amount = it.fat?.toDoubleOrNull()?.times(amount),
-                                    measure = "g"
-                                ),
-                                ServingContent(
-                                    name = "Saturated Fat",
-                                    amount = it.saturated_fat?.toDoubleOrNull()?.times(amount),
-                                    measure = "g",
-                                    subContent = true
-                                ),
-                                ServingContent(
-                                    name = "Polyunsaturated Fat",
-                                    amount = it.polyunsaturated_fat?.toDoubleOrNull()?.times(amount),
-                                    measure = "g",
-                                    subContent = true
-                                ),
-                                ServingContent(
-                                    name = "Monounsaturated Fat",
-                                    amount = it.monounsaturated_fat?.toDoubleOrNull()?.times(amount),
-                                    measure = "g",
-                                    subContent = true
-                                ),
-                                ServingContent(
-                                    name = "Cholesterol",
-                                    amount = it.cholesterol?.toDoubleOrNull()?.times(amount),
-                                    measure = "mg"
-                                ),
-                                ServingContent(
-                                    name = "Sodium",
-                                    amount = it.sodium?.toDoubleOrNull()?.times(amount),
-                                    measure = "mg"
-                                ),
-                                ServingContent(
-                                    name = "Potassium",
-                                    amount = it.potassium?.toDoubleOrNull()?.times(amount),
-                                    measure = "mg"
-                                ),
-                                ServingContent(
-                                    name = "Total Carbohydrate",
-                                    amount = it.carbohydrate?.toDoubleOrNull()?.times(amount),
-                                    measure = "g"
-                                ),
-                                ServingContent(
-                                    name = "Dietary Fiber",
-                                    amount = it.fiber?.toDoubleOrNull()?.times(amount),
-                                    measure = "g",
-                                    subContent = true
-                                ),
-                                ServingContent(
-                                    name = "Sugars",
-                                    amount = it.sugar?.toDoubleOrNull()?.times(amount),
-                                    measure = "g",
-                                    subContent = true,
-                                    warning = (it.sugar?.toDoubleOrNull()?.times(amount)?.let { it }
-                                        ?: 0.0).let {
-                                        it != 0.0 && it > foodEntries.sugarLimitLeft
-                                    },
-                                    warningReason = "You have diabetes disease. If you add that food, you will exceed your daily sugar limit."
-                                ),
-                                ServingContent(
-                                    name = "Protein",
-                                    amount = it.protein?.toDoubleOrNull()?.times(amount),
-                                    measure = "g"
-                                ),
-                                ServingContent(
-                                    name = "Vitamin A",
-                                    amount = it.vitamin_a?.toDoubleOrNull(),
-                                    measure = "%"
-                                ),
-                                ServingContent(
-                                    name = "Vitamin C",
-                                    amount = it.vitamin_c?.toDoubleOrNull(),
-                                    measure = "%"
-                                ),
-                                ServingContent(
-                                    name = "Calcium",
-                                    amount = it.calcium?.toDoubleOrNull(),
-                                    measure = "%"
-                                ),
-                                ServingContent(
-                                    name = "Iron",
-                                    amount = it.iron?.toDoubleOrNull(),
-                                    measure = "%"
+            fatlyticsApi.getFood(id)
+                .doOnSuccess { it.error?.let { error(it.message) } }
+                .map {
+                    Food(
+                        id = it.food?.food_id?.toLongOrNull(),
+                        name = it.food?.food_name,
+                        servings = it.food?.servings?.serving?.map {
+                            Serving(
+                                id = it.serving_id?.toLongOrNull(),
+                                numberOfUnits = it.number_of_units?.toDoubleOrNull()?.times(amount),
+                                measurementDescription = it.measurement_description,
+                                contents = listOf(
+                                    ServingContent(
+                                        name = "Calories",
+                                        amount = it.calories?.toDoubleOrNull()?.times(amount),
+                                        measure = "cal"
+                                    ),
+                                    ServingContent(
+                                        name = "Total Fat",
+                                        amount = it.fat?.toDoubleOrNull()?.times(amount),
+                                        measure = "g"
+                                    ),
+                                    ServingContent(
+                                        name = "Saturated Fat",
+                                        amount = it.saturated_fat?.toDoubleOrNull()?.times(amount),
+                                        measure = "g",
+                                        subContent = true
+                                    ),
+                                    ServingContent(
+                                        name = "Polyunsaturated Fat",
+                                        amount = it.polyunsaturated_fat?.toDoubleOrNull()?.times(
+                                            amount
+                                        ),
+                                        measure = "g",
+                                        subContent = true
+                                    ),
+                                    ServingContent(
+                                        name = "Monounsaturated Fat",
+                                        amount = it.monounsaturated_fat?.toDoubleOrNull()?.times(
+                                            amount
+                                        ),
+                                        measure = "g",
+                                        subContent = true
+                                    ),
+                                    ServingContent(
+                                        name = "Cholesterol",
+                                        amount = it.cholesterol?.toDoubleOrNull()?.times(amount),
+                                        measure = "mg"
+                                    ),
+                                    ServingContent(
+                                        name = "Sodium",
+                                        amount = it.sodium?.toDoubleOrNull()?.times(amount),
+                                        measure = "mg"
+                                    ),
+                                    ServingContent(
+                                        name = "Potassium",
+                                        amount = it.potassium?.toDoubleOrNull()?.times(amount),
+                                        measure = "mg"
+                                    ),
+                                    ServingContent(
+                                        name = "Total Carbohydrate",
+                                        amount = it.carbohydrate?.toDoubleOrNull()?.times(amount),
+                                        measure = "g"
+                                    ),
+                                    ServingContent(
+                                        name = "Dietary Fiber",
+                                        amount = it.fiber?.toDoubleOrNull()?.times(amount),
+                                        measure = "g",
+                                        subContent = true
+                                    ),
+                                    ServingContent(
+                                        name = "Sugars",
+                                        amount = it.sugar?.toDoubleOrNull()?.times(amount),
+                                        measure = "g",
+                                        subContent = true,
+                                        warning = (it.sugar?.toDoubleOrNull()?.times(amount)?.let { it }
+                                            ?: 0.0).let {
+                                            it != 0.0 && it > foodEntries.sugarLimitLeft
+                                        },
+                                        warningReason = "You have diabetes disease. If you add that food, you will exceed your daily sugar limit."
+                                    ),
+                                    ServingContent(
+                                        name = "Protein",
+                                        amount = it.protein?.toDoubleOrNull()?.times(amount),
+                                        measure = "g"
+                                    ),
+                                    ServingContent(
+                                        name = "Vitamin A",
+                                        amount = it.vitamin_a?.toDoubleOrNull(),
+                                        measure = "%"
+                                    ),
+                                    ServingContent(
+                                        name = "Vitamin C",
+                                        amount = it.vitamin_c?.toDoubleOrNull(),
+                                        measure = "%"
+                                    ),
+                                    ServingContent(
+                                        name = "Calcium",
+                                        amount = it.calcium?.toDoubleOrNull(),
+                                        measure = "%"
+                                    ),
+                                    ServingContent(
+                                        name = "Iron",
+                                        amount = it.iron?.toDoubleOrNull(),
+                                        measure = "%"
+                                    )
                                 )
                             )
-                        )
-                    }
-                )
-            }
+                        }
+                    )
+                }
         }
     }
 
@@ -147,7 +153,7 @@ class FatlyticsManager @Inject constructor(
                         dailyGoal = dailyGoal(user),
                         sugarLimitLeft = sugarLimitLeft(user, it)
                     )
-                } ?: FoodEntriesModel()
+                } ?: error(it.error?.message ?: "")
             }.subscribeOn(Schedulers.io())
         }
     }

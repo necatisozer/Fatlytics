@@ -23,9 +23,12 @@ class FoodDetailViewModel @Inject constructor(
     val foodAddCompleteEvent: LiveData<Void> get() = mFoodAddCompleteEvent
 
     fun getFood(foodId: Long, amount: Double) {
-        fatlyticsManager.getFood(foodId, amount).doInBackground().subscribeBy {
-            mFood.value = it
-        }.also { disposables += it }
+        fatlyticsManager.getFood(foodId, amount)
+            .doInBackground()
+            .subscribeBy(
+                onSuccess = { mFood.value = it },
+                onError = { mUnexpectedErrorEvent.call() })
+            .also { disposables += it }
     }
 
     fun addFood(
@@ -37,7 +40,12 @@ class FoodDetailViewModel @Inject constructor(
     ) {
         fatlyticsApi.createFoodEntry(foodId, entryName, servingId, numberOfUnits, meal)
             .doInBackground()
-            .subscribeBy { mFoodAddCompleteEvent.call() }
+            .subscribeBy(
+                onSuccess = {
+                    it.food_entry_id?.let { mFoodAddCompleteEvent.call() }
+                    it.error?.let { mUnexpectedErrorEvent.call() }
+                },
+                onError = { mUnexpectedErrorEvent.call() })
             .also { disposables += it }
     }
 }

@@ -21,47 +21,54 @@ class ProfileViewModel @Inject constructor(
     val profileView: LiveData<ProfileView> get() = mProfileView
 
     init {
-        userRepository.getCurrentUser().map {
-            ProfileView(
-                username = it.personalInfo?.username,
-                info = listOf(
-                    ProfileItem(title = "Email", value = it.email),
-                    ProfileItem(title = "First Name", value = it.personalInfo?.firstName),
-                    ProfileItem(title = "Last Name", value = it.personalInfo?.lastName),
-                    ProfileItem(
-                        title = "Birthday",
-                        value = DateTimeFormatter.ISO_LOCAL_DATE.format(it.personalInfo?.birthday)
-                    ),
-                    ProfileItem(
-                        title = "Gender", value = when (it.personalInfo?.gender) {
-                            Gender.MALE -> "Male"
-                            Gender.FEMALE -> "Female"
-                            else -> String.EMPTY
-                        }
-                    ),
-                    ProfileItem(title = "Height", value = "${it.healthInfo?.height} cm"),
-                    ProfileItem(title = "Weight", value = "${it.healthInfo?.weight} kg"),
-                    ProfileItem(
-                        title = "Daily Activeness", value = when (it.healthInfo?.dailyActiveness) {
-                            DailyActiveness.NOT_ACTIVE -> "Not Active"
-                            DailyActiveness.LOW -> "Low"
-                            DailyActiveness.MEDIUM -> "Medium"
-                            DailyActiveness.HIGH -> "High"
-                            else -> String.EMPTY
-                        }
-                    ),
-                    ProfileItem(title = "Diseases", value = it.healthInfo?.diseases?.joinToString {
-                        when (it) {
-                            Disease.DIABETES -> "Diabetes"
-                            Disease.OBESITY -> "Obesity"
-                            Disease.HEART -> "Heart"
-                        }
-                    })
+        userRepository.getCurrentUser()
+            .map {
+                ProfileView(
+                    username = it.personalInfo?.username,
+                    info = listOf(
+                        ProfileItem(title = "Email", value = it.email),
+                        ProfileItem(title = "First Name", value = it.personalInfo?.firstName),
+                        ProfileItem(title = "Last Name", value = it.personalInfo?.lastName),
+                        ProfileItem(
+                            title = "Birthday",
+                            value = DateTimeFormatter.ISO_LOCAL_DATE.format(it.personalInfo?.birthday)
+                        ),
+                        ProfileItem(
+                            title = "Gender", value = when (it.personalInfo?.gender) {
+                                Gender.MALE -> "Male"
+                                Gender.FEMALE -> "Female"
+                                else -> String.EMPTY
+                            }
+                        ),
+                        ProfileItem(title = "Height", value = "${it.healthInfo?.height} cm"),
+                        ProfileItem(title = "Weight", value = "${it.healthInfo?.weight} kg"),
+                        ProfileItem(
+                            title = "Daily Activeness",
+                            value = when (it.healthInfo?.dailyActiveness) {
+                                DailyActiveness.NOT_ACTIVE -> "Not Active"
+                                DailyActiveness.LOW -> "Low"
+                                DailyActiveness.MEDIUM -> "Medium"
+                                DailyActiveness.HIGH -> "High"
+                                else -> String.EMPTY
+                            }
+                        ),
+                        ProfileItem(
+                            title = "Diseases",
+                            value = it.healthInfo?.diseases?.joinToString {
+                                when (it) {
+                                    Disease.DIABETES -> "Diabetes"
+                                    Disease.OBESITY -> "Obesity"
+                                    Disease.HEART -> "Heart"
+                                }
+                            })
+                    )
                 )
-            )
-        }.doInBackground().subscribeBy {
-            mProfileView.value = it
-        }.also { disposables += it }
+            }
+            .doInBackground()
+            .subscribeBy(
+                onNext = { mProfileView.value = it },
+                onError = { mUnexpectedErrorEvent.call() })
+            .also { disposables += it }
     }
 }
 

@@ -28,7 +28,12 @@ class DiaryViewModel @Inject constructor(
     fun deleteFoodEntry(foodEntryId: Long) {
         fatlyticsApi.deleteFoodEntry(foodEntryId)
             .doInBackground()
-            .subscribeBy { init() }
+            .subscribeBy(
+                onSuccess = {
+                    it.success?.let { init() }
+                    it.error?.let { mUnexpectedErrorEvent.call() }
+                },
+                onError = { mUnexpectedErrorEvent.call() })
             .also { disposables += it }
     }
 }

@@ -17,8 +17,14 @@ class SearchViewModel @Inject constructor(
     val searchResultsLiveData: LiveData<List<FoodsSearch.Foods.Food>> get() = mSearchResultsLiveData
 
     fun onQueryChange(query: String) {
-        fatlyticsApi.searchFoods(query).doInBackground().subscribeBy {
-            it.foods?.food.let { mSearchResultsLiveData.value = it }
-        }.also { disposables += it }
+        fatlyticsApi.searchFoods(query)
+            .doInBackground()
+            .subscribeBy(
+                onSuccess = {
+                    it.foods?.food.let { mSearchResultsLiveData.value = it }
+                    it.error?.let { mUnexpectedErrorEvent.call() }
+                },
+                onError = { mUnexpectedErrorEvent.call() })
+            .also { disposables += it }
     }
 }
