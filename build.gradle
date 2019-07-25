@@ -1,15 +1,26 @@
+import java.text.SimpleDateFormat
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.3.21'
+
+    ext.android_lifecycle_version = '2.2.0-alpha02'
+    ext.android_navigation_version = '2.1.0-beta02'
+    ext.dagger_version = '2.23.2'
+    ext.kotlin_version = '1.3.41'
+    ext.material_dialogs_version = '3.1.0'
+    ext.retrofit_version = '2.6.0'
+    ext.splitties_version = '3.0.0-alpha06'
+
     repositories {
         google()
         jcenter()
     }
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.0'
+        classpath 'com.android.tools.build:gradle:3.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:1.0.0"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$android_navigation_version"
     }
 }
 
@@ -30,4 +41,13 @@ def getLocalProperty(String propertyName) {
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
     return properties.getProperty(propertyName)
+}
+
+static def gitSha() {
+    return 'git rev-parseAs --short HEAD'.execute().text.trim()
+}
+
+static def buildTime() {
+    def df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
+    return df.format(new Date())
 }

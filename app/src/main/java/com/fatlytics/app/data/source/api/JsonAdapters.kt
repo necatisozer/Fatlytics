@@ -4,8 +4,9 @@ import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
+import javax.inject.Inject
 
-class DateAdapter {
+class DateAdapter @Inject constructor() {
     @ToJson
     fun toJson(date: LocalDate): String = DateTimeFormatter.ISO_LOCAL_DATE.format(date)
 

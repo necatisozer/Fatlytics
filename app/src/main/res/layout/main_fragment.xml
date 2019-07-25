@@ -3,15 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewState"
+            type="com.fatlytics.app.ui.main.fragment.MainFragmentViewState" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         tools:context=".ui.main.MainActivity">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/sample_text_view"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:text="@{viewState.sampleEntityId}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

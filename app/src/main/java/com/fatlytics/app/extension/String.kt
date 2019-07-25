@@ -1,4 +1,3 @@
 package com.fatlytics.app.extension
 
-val String.Companion.EMPTY: String
-    get() = ""
+val String.Companion.EMPTY get() = ""

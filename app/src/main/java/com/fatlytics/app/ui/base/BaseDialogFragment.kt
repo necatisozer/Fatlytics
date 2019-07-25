@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import com.fatlytics.app.extension.getClassTag
+import com.fatlytics.app.extension.classTag
 
 abstract class BaseDialogFragment<B : ViewDataBinding> :
     BaseFragment<B>() {
@@ -27,6 +27,6 @@ abstract class BaseDialogFragment<B : ViewDataBinding> :
     }
 
     fun show(supportFragmentManager: FragmentManager) {
-        super.show(supportFragmentManager, getClassTag())
+        super.show(supportFragmentManager, classTag)
     }
 }

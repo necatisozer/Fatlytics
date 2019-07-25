@@ -1,8 +1,10 @@
 package com.fatlytics.app.extension
 
+import com.fatlytics.app.helper.Resource
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
-fun <T> Observable<T>.doInBackground(): Observable<T> =
-    this.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+fun <T, T2> Observable<Resource<T>>.mapResource(transform: (T) -> T2): Observable<Resource<T2>> {
+    return map { it.map(transform) }
+}
+
+fun <T> Observable<T>.ignoreError(): Observable<T> = onErrorResumeNext(Observable.empty())

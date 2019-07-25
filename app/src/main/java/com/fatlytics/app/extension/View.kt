@@ -19,7 +19,7 @@ fun View.gone() {
     visibility = GONE
 }
 
-fun View.getInflater(): LayoutInflater = LayoutInflater.from(context)
+val View.inflater get() = LayoutInflater.from(context)
 
 fun View.onSingleClick(debounceTime: Long = 2000L, action: () -> Unit) {
     var lastClickTime: Long = 0

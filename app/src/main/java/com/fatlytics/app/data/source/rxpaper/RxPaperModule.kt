@@ -11,7 +11,7 @@ class RxPaperModule {
     @Singleton
     @Provides
     @RxSampleBook
-    fun provideSampleBook() = RxPaperBook.with("sample")
+    fun provideSampleBook(): RxPaperBook = RxPaperBook.with("sample")
 }
 
 @Qualifier

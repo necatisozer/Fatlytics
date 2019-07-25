@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Fatlytics</string>
+    <string name="sample_entity_error_message">Sample entity cannot be fetch.</string>
 </resources>
