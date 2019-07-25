@@ -3,8 +3,8 @@ package com.fatlytics.app.ui.main.fragment
 import android.os.Bundle
 import com.fatlytics.app.R
 import com.fatlytics.app.databinding.MainFragmentBinding
+import com.fatlytics.app.extension.observeNonNull
 import com.fatlytics.app.ui.base.BaseViewModelFragment
-import splitties.views.textResource
 
 class MainFragment : BaseViewModelFragment<MainFragmentViewModel, MainFragmentBinding>() {
     override val layoutRes = R.layout.main_fragment
@@ -17,9 +17,14 @@ class MainFragment : BaseViewModelFragment<MainFragmentViewModel, MainFragmentBi
     }
 
     private fun initView() {
-        binding.sampleTextView.textResource = R.string.app_name
     }
 
     private fun initViewModel() {
+        viewModel.getViewState().observeNonNull(viewLifecycleOwner) {
+            binding.apply {
+                viewState = it
+                executePendingBindings()
+            }
+        }
     }
 }
